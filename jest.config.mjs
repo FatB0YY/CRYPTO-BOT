@@ -1,0 +1,31 @@
+import { createRequire } from 'module'
+import { pathsToModuleNameMapper } from 'ts-jest'
+
+const require = createRequire(import.meta.url)
+const { compilerOptions } = require('./tsconfig.json')
+
+export default {
+  // Use ts-jest preset for testing TypeScript files with Jest
+  preset: 'ts-jest',
+  // Set the test environment to Node.js
+  testEnvironment: 'node',
+
+  // Define the root directory for tests and modules
+  roots: ['<rootDir>/tests'],
+
+  // Use ts-jest to transform TypeScript files
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest',
+  },
+
+  // Regular expression to find test files
+  testRegex: '((\\.|/)(test|spec))\\.tsx?$',
+
+  // File extensions to recognize in module resolution
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+
+  modulePaths: [compilerOptions.baseUrl],
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
+    prefix: '<rootDir>/',
+  }),
+}
