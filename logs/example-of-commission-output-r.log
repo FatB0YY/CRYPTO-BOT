@@ -1,0 +1,64 @@
+11:48:04 - Found 0 errors. Watching for file changes.
+🚀 Server listening on port 8001
+⚠️ Вызываем ensureTokenAccount для USDC
+🛠️ Создаём токен-аккаунт для EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+✅ Токен-аккаунт создан: F4A6QmfNQS7jYj69xhRSjJ1xecCDXnch8buhZJTUih1q
+🔁 Готовим свап 0.001 SOL → USDC
+💸 Priority Fees (μLamports): { vh: 73254, h: 54940, m: 10000 }
+📈 Swap Compute: {
+  swapType: 'BaseIn',
+  inputMint: 'So11111111111111111111111111111111111111112',  
+  inputAmount: '1000000',
+  outputMint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+  outputAmount: '139747',
+  otherAmountThreshold: '139048',
+  slippageBps: 50,
+  priceImpactPct: 0.2,
+  referrerAmount: '0',
+  routePlan: [
+    {
+      poolId: '75fyBU93H5z5S5nec5huFhHYCtEGHkD9JBT8SYmBLyoQ',
+      inputMint: 'So11111111111111111111111111111111111111112',
+      outputMint: 'WENWENvqqNya429ubCdR81ZmD69brwQaaBYY6p3LCpk',
+      feeMint: 'So11111111111111111111111111111111111111112',
+      feeRate: 100,
+      feeAmount: '10000',
+      remainingAccounts: []
+    },
+    {
+      poolId: 'HrPMN9xR3csgXNEZFZBU2SZagDUDzNH8JwVSDcZvvYHA',
+      inputMint: 'WENWENvqqNya429ubCdR81ZmD69brwQaaBYY6p3LCpk',
+      outputMint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+      feeMint: 'WENWENvqqNya429ubCdR81ZmD69brwQaaBYY6p3LCpk',
+      feeRate: 25,
+      feeAmount: '1319061',
+      remainingAccounts: []
+    }
+  ]
+}
+🔍 Расчётный outputAmount: 139747 (примерно 0.139747 USDC)
+📉 slippageBps: 50 (≈ 0.5% slippage)
+💥 priceImpact: 0.2%
+📊 routePlan: [
+  {
+    poolId: '75fyBU93H5z5S5nec5huFhHYCtEGHkD9JBT8SYmBLyoQ',
+    inputMint: 'So11111111111111111111111111111111111111112',
+    outputMint: 'WENWENvqqNya429ubCdR81ZmD69brwQaaBYY6p3LCpk',
+    feeMint: 'So11111111111111111111111111111111111111112',
+    feeRate: 100,
+    feeRate: 100,
+    feeAmount: '10000',
+    feeAmount: '10000',
+    remainingAccounts: []
+  },
+  },
+  {
+    poolId: 'HrPMN9xR3csgXNEZFZBU2SZagDUDzNH8JwVSDcZvvYHA',
+    inputMint: 'WENWENvqqNya429ubCdR81ZmD69brwQaaBYY6p3LCpk',
+    outputMint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+    feeMint: 'WENWENvqqNya429ubCdR81ZmD69brwQaaBYY6p3LCpk',
+    feeRate: 25,
+    feeAmount: '1319061',
+    remainingAccounts: []
+  }
+]

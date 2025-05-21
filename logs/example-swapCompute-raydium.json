@@ -1,0 +1,32 @@
+{
+  "id": "21201394-2963-4d66-99d8-34f261d419f6",
+  "success": true,
+  "version": "V1",
+  "data": {
+    "swapType": "BaseIn",
+    "inputMint": "So11111111111111111111111111111111111111112",
+    "inputAmount": "5000000",
+    "outputMint": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+    "outputAmount": "810189",
+    "otherAmountThreshold": "806138",
+    "slippageBps": 50,
+    "priceImpactPct": 0,
+    "referrerAmount": "0",
+    "routePlan": [
+      {
+        "poolId": "3nMFwZXwY1s1M5s8vYAHqd4wGs4iSxXE4LRoUMMYqEgF",
+        "inputMint": "So11111111111111111111111111111111111111112",
+        "outputMint": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+        "feeMint": "So11111111111111111111111111111111111111112",
+        "feeRate": 1,
+        "feeAmount": "500",
+        "remainingAccounts": [
+          "GjmoBJo9kEKPJM3ck1QnNfuUvWwB4SRQGbSY4FW4PAeQ",
+          "8wqGUmuzzr4c8s6GeFRx8HkGLbt4PRteG3oU2YXykvfL",
+          "JpQtuAq6pEt2F6e8c5Q1j4YWDp54aQH54CtUXL4Dopi"
+        ],
+        "lastPoolPriceX64": "7425908029588200974"
+      }
+    ]
+  }
+}

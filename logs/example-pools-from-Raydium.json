@@ -1,0 +1,212 @@
+[
+  {
+    "poolId": "58oQChx4yWmvKdwLLZzBi4ChoCc2fqCUWBkwMihLYQo2",
+    "type": "Standard",
+    "price": 140.82933488024952,
+    "liquidity": 6961034.91,
+    "mintA": "WSOL",
+    "mintAmountA": 24705.915615433,
+    "mintB": "USDC",
+    "mintAmountB": 3479317.663729
+  },
+  {
+    "poolId": "61acRgpURKTU8LKPJKs6WQa18KzD9ogavXzjxfD84KLu",
+    "type": "Standard",
+    "price": 140.73658427081912,
+    "liquidity": 1621.42,
+    "mintA": "WSOL",
+    "mintAmountA": 5.74874399,
+    "mintB": "USDC",
+    "mintAmountB": 809.058593
+  },
+  {
+    "poolId": "5oAvct85WyF7Sj73VYHbyFJkdRJ28D8m4z4Sxjvzuc6n",
+    "type": "Standard",
+    "price": 140.7455218013427,
+    "liquidity": 921.55,
+    "mintA": "WSOL",
+    "mintAmountA": 3.257223968,
+    "mintB": "USDC",
+    "mintAmountB": 458.439687
+  },
+  {
+    "poolId": "FyqYBBJ8vhr5AtDZiyJue4Khx9Be6Xijx5nm6aL6wZZV",
+    "type": "Standard",
+    "price": 140.5842015820738,
+    "liquidity": 183.8,
+    "mintA": "WSOL",
+    "mintAmountA": 0.62911983,
+    "mintB": "USDC",
+    "mintAmountB": 88.444309
+  },
+  {
+    "poolId": "CwF4aUPjMciM3u9DpxoZyLGVKVxgUgBmxHW32RbtmZNz",
+    "type": "Standard",
+    "price": 140.75647417236675,
+    "liquidity": 117.5,
+    "mintA": "WSOL",
+    "mintAmountA": 0.401231015,
+    "mintB": "USDC",
+    "mintAmountB": 56.475863
+  },
+  {
+    "poolId": "7s2pco2iYjNPKeN7QYaHD8ZSRb8jZgypspwg7DNkZhZJ",
+    "type": "Standard",
+    "price": 140.7796672431017,
+    "liquidity": 75,
+    "mintA": "WSOL",
+    "mintAmountA": 0.256065856,
+    "mintB": "USDC",
+    "mintAmountB": 36.048866
+  },
+  {
+    "poolId": "7JuwJuNU88gurFnyWeiyGKbFmExMWcmRZntn9imEzdny",
+    "type": "Standard",
+    "price": 131.13469097433227,
+    "liquidity": 46.06,
+    "mintA": "WSOL",
+    "mintAmountA": 0.175422467,
+    "mintB": "USDC",
+    "mintAmountB": 23.003971
+  },
+  {
+    "poolId": "FdyhqDuVfQLe5P9QBySvAEf1wSHFDfvS7zpZo8ZT8PVM",
+    "type": "Standard",
+    "price": 141.2985142252839,
+    "liquidity": 25.42,
+    "mintA": "WSOL",
+    "mintAmountA": 0.090720685,
+    "mintB": "USDC",
+    "mintAmountB": 12.818698
+  },
+  {
+    "poolId": "S2MiN5qmiRS8HBQMXcdJUhLwrBgX9P3naDuo4GkQ63t",
+    "type": "Standard",
+    "price": 140.85735171585063,
+    "liquidity": 7.85,
+    "mintA": "WSOL",
+    "mintAmountA": 0.027432079,
+    "mintB": "USDC",
+    "mintAmountB": 3.86401
+  },
+  {
+    "poolId": "5fGDRDhRhkbiTdgww4v4wRq6HZTYeV6qyVi1PJVV9qpu",
+    "type": "Standard",
+    "price": 140.25404188964546,
+    "liquidity": 4.63,
+    "mintA": "WSOL",
+    "mintAmountA": 0.01591706,
+    "mintB": "USDC",
+    "mintAmountB": 2.232432
+  },
+  {
+    "poolId": "9JZdkfK4gUtq6QzP3Pq82PjDYPW9eRtqHNtjZn23Nc51",
+    "type": "Standard",
+    "price": 140.89870367076588,
+    "liquidity": 1.14,
+    "mintA": "WSOL",
+    "mintAmountA": 0.003845628,
+    "mintB": "USDC",
+    "mintAmountB": 0.541844
+  },
+  {
+    "poolId": "GUZWuwD2qhuGZ13PVtTH9yJrB1kGEExN8YBVDiaS7DmL",
+    "type": "Standard",
+    "price": 139.6335741208569,
+    "liquidity": 1.16,
+    "mintA": "WSOL",
+    "mintAmountA": 0.004082299,
+    "mintB": "USDC",
+    "mintAmountB": 0.570026
+  },
+  {
+    "poolId": "FFhoDyFx1TvZhJHMUbU6BSi7dkrxEJucRFVYRnsb9xBy",
+    "type": "Standard",
+    "price": 0.007098001319845481,
+    "liquidity": 2.64,
+    "mintA": "USDC",
+    "mintAmountA": 1.253177,
+    "mintB": "WSOL",
+    "mintAmountB": 0.008895052
+  },
+  {
+    "poolId": "AbbG2aR8iNhy2prC32iDRW7pKJjzqhUtri8rV5HboHUY",
+    "type": "Standard",
+    "price": 0.0071073367747315494,
+    "liquidity": 2.02,
+    "mintA": "USDC",
+    "mintAmountA": 0.964143,
+    "mintB": "WSOL",
+    "mintAmountB": 0.006852489
+  },
+  {
+    "poolId": "3gSjs6MqyHFsp8DXvaKvVUJjV7qg5itf9qmUGuhnSaWH",
+    "type": "Standard",
+    "price": 140.28175333426665,
+    "liquidity": 1.7,
+    "mintA": "WSOL",
+    "mintAmountA": 0.00592859,
+    "mintB": "USDC",
+    "mintAmountB": 0.831673
+  },
+  {
+    "poolId": "EUvnsWhMnhY3S5EnV3tLATNRvTM2xBMWZQQguzpFNwYT",
+    "type": "Standard",
+    "price": 140.73263635626876,
+    "liquidity": 1.96,
+    "mintA": "WSOL",
+    "mintAmountA": 0.004787532,
+    "mintB": "USDC",
+    "mintAmountB": 0.673762
+  },
+  {
+    "poolId": "H2p2de3UXq42To4XA5ByCY8C2NgJzXX6nzNvxbrMESBW",
+    "type": "Standard",
+    "price": 140.71964449183307,
+    "liquidity": 0.26,
+    "mintA": "WSOL",
+    "mintAmountA": 0.000855339,
+    "mintB": "USDC",
+    "mintAmountB": 0.120363
+  },
+  {
+    "poolId": "Hx6EoXCzvYzcdtTvEm2QsXUFVe9pJzhH9FuMxmLw589D",
+    "type": "Standard",
+    "price": 152.55955235401373,
+    "liquidity": 0.44,
+    "mintA": "WSOL",
+    "mintAmountA": 0.001559804,
+    "mintB": "USDC",
+    "mintAmountB": 0.237963
+  },
+  {
+    "poolId": "8vVQ4G39TeBqiJguKPxYto6a997KQSaSwrscqxR6QtGT",
+    "type": "Standard",
+    "price": 137.33375981372305,
+    "liquidity": 0.28,
+    "mintA": "WSOL",
+    "mintAmountA": 0.000659663,
+    "mintB": "USDC",
+    "mintAmountB": 0.090594
+  },
+  {
+    "poolId": "4jgpwmuwaUrZgTvUjio8aBVNQJ6HcsF3YKAekpwwxTou",
+    "type": "Standard",
+    "price": 664.0446556896048,
+    "liquidity": 0.09,
+    "mintA": "WSOL",
+    "mintAmountA": 0.000167683,
+    "mintB": "USDC",
+    "mintAmountB": 0.111349
+  },
+  {
+    "poolId": "6ZUSFy467HZ3TYj3HHGr8gExNkAE3SzRNVmHTBE7QJcm",
+    "type": "Standard",
+    "price": 9.962187281176394,
+    "liquidity": 0.2,
+    "mintA": "WSOL",
+    "mintAmountA": 0.001963625,
+    "mintB": "USDC",
+    "mintAmountB": 0.019562
+  }
+]
