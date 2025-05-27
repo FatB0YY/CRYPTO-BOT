@@ -1,7 +1,7 @@
 import { getBybitRest } from '../api'
 
 /**
- * Выполняет рыночную сделку на Bybit: продаёт USDC за SOL (пара SOL/USDC).
+ * Выполняет рыночную сделку на Bybit: продаёт USDC за SOL (пара SOL/USDC). !как мейкер!
  *
  * @param {string} amount - Сумма в USDC, которую нужно продать (quote-валюта).
  * @returns {Promise<void>} Ничего не возвращает, но логирует результат ордера в консоль.
@@ -15,7 +15,7 @@ export const _swapUsdcToSolByBit = async (amount: string): Promise<void> => {
 
     const response = await rest.submitOrder({
       category: 'spot',
-      symbol: 'SOLUSDC',
+      symbol: 'SOLUSDT',
       side: 'Sell',
       orderType: 'Market',
       qty: amount, // сумма, которую тратим (в USDC)

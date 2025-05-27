@@ -1,4 +1,8 @@
-import { FetchPoolParams, PoolFetchType } from '@raydium-io/raydium-sdk-v2'
+import {
+  ApiV3PoolInfoItem,
+  FetchPoolParams,
+  PoolFetchType,
+} from '@raydium-io/raydium-sdk-v2'
 
 import { initializeRaydiumSdk } from './initializeRaydiumSdk'
 
@@ -18,7 +22,7 @@ export const getTopRaydiumPoolByTokens = async (
   tokenMintAddress: string,
   pairedTokenMintAddress: string,
   sort: FetchPoolParams['sort'] = 'volume24h',
-) => {
+): Promise<ApiV3PoolInfoItem> => {
   try {
     const raydium = await initializeRaydiumSdk()
 
@@ -45,7 +49,7 @@ export const getTopRaydiumPoolByTokens = async (
       //   StandardFarm = "standardFarm",   // фермы на стандартных пулах
       //   ConcentratedFarm = "concentratedFarm" // фермы на концентрированных пулах
       // }
-      type: PoolFetchType.All,
+      type: PoolFetchType.Standard,
     })
 
     if (!pools.data || pools.data.length === 0) {
@@ -67,7 +71,7 @@ export const getTopRaydiumPoolByTokens = async (
     // }))
     // console.log('prices', prices)
 
-    const topPool = pools.data[0]
+    const topPool: ApiV3PoolInfoItem = pools.data[0]
     return topPool
   } catch (error) {
     console.error(`Ошибка при получении пулов Raydium:`, error)

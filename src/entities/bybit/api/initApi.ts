@@ -19,6 +19,7 @@ const wsConfig: WSClientConfigurableOptions = {
 const restConfig: RestClientOptions = {
   key: config.bybit.apiKey,
   secret: config.bybit.apiSecret,
+  recv_window: 10000,
 }
 
 export const getBybitWebsocket = (): WebsocketClient => {

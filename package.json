@@ -1,5 +1,6 @@
 {
   "name": "dexonir",
+  "private": true,
   "version": "1.0.0",
   "description": "Arbitrage of token pair quotes on different crypto exchanges with the goal of profiting from price (exchange rate) differences for the same pairs across various platforms.",
   "main": "index.js",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@eslint/js": "^9.23.0",
     "@tsconfig/node20": "^20.1.5",
+    "@types/bn.js": "^5.1.6",
     "@types/bs58": "^4.0.4",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",

@@ -33,50 +33,12 @@ export function analyzeSpread(filePath: string) {
 
       if (quote.market === 'Raydium') {
         raydiumQuotes.push(quote)
-
-        for (const bybitQuote of bybitQuotes) {
-          const timeDiff = Math.abs(
-            bybitQuote.timestamp.getTime() - quote.timestamp.getTime(),
-          )
-          if (timeDiff <= TIME_DIFF_THRESHOLD_MS) {
-            let priceDiff: number | null = null
-
-            if (quote.price > bybitQuote.price) {
-              priceDiff = quote.price - bybitQuote.price
-            } else {
-              priceDiff = bybitQuote.price - quote.price
-            }
-
-            const priceDiffPercent = (priceDiff / bybitQuote.price) * 100
-            console.log(
-              `[${quote.timestamp.toISOString()}] Raydium=${quote.price} Bybit=${bybitQuote.price} Δ=${priceDiff} (${priceDiffPercent}%)`,
-            )
-          }
-        }
+        compareQuotes(quote, bybitQuotes, true)
       }
 
       if (quote.market === 'Bybit') {
         bybitQuotes.push(quote)
-
-        for (const raydiumQuote of raydiumQuotes) {
-          const timeDiff = Math.abs(
-            raydiumQuote.timestamp.getTime() - quote.timestamp.getTime(),
-          )
-          if (timeDiff <= TIME_DIFF_THRESHOLD_MS) {
-            let priceDiff: number | null = null
-
-            if (raydiumQuote.price > quote.price) {
-              priceDiff = raydiumQuote.price - quote.price
-            } else {
-              priceDiff = quote.price - raydiumQuote.price
-            }
-
-            const priceDiffPercent = (priceDiff / quote.price) * 100
-            console.log(
-              `[${quote.timestamp.toISOString()}] Raydium=${raydiumQuote.price} Bybit=${quote.price} Δ=${priceDiff} (${priceDiffPercent}%)`,
-            )
-          }
-        }
+        compareQuotes(quote, raydiumQuotes, false)
       }
     })
     .on('end', function () {
@@ -85,4 +47,29 @@ export function analyzeSpread(filePath: string) {
     .on('error', function (error: Error) {
       console.error('❌ Ошибка при анализе:', error.message)
     })
+}
+
+function compareQuotes(
+  quote: Quote,
+  referenceQuotes: Quote[],
+  isRaydium: boolean,
+) {
+  for (const ref of referenceQuotes) {
+    const timeDiff = Math.abs(
+      quote.timestamp.getTime() - ref.timestamp.getTime(),
+    )
+    if (timeDiff <= TIME_DIFF_THRESHOLD_MS) {
+      const buyPrice = Math.min(quote.price, ref.price)
+      const sellPrice = Math.max(quote.price, ref.price)
+      const spread = sellPrice - buyPrice
+      const spreadPercent = (spread / buyPrice) * 100
+
+      const raydiumPrice = isRaydium ? quote.price : ref.price
+      const bybitPrice = isRaydium ? ref.price : quote.price
+
+      console.log(
+        `[${quote.timestamp.toISOString()}] Raydium=${raydiumPrice.toFixed(4)} Bybit=${bybitPrice.toFixed(4)} Δ=${spread.toFixed(4)} (${spreadPercent.toFixed(2)}%)`,
+      )
+    }
+  }
 }

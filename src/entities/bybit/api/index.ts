@@ -1,1 +1,1 @@
-export { getBybitRest, getBybitWebsocket } from './bybitClient'
+export { getBybitRest, getBybitWebsocket } from './initApi'
