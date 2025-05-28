@@ -56,7 +56,7 @@ export const checkEvmWalletBalance = async (walletAddress: string) => {
         `${status}     | ${token.tokenSymbol.padEnd(8)} | ${token.balance.padEnd(12)} | ${token.tokenName}`,
       )
     }
-  } catch (err) {
-    console.error('Ошибка при получении баланса EVM-кошелька:', err)
+  } catch (error) {
+    console.error('Ошибка при получении баланса EVM-кошелька:', error)
   }
 }

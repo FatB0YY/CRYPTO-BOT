@@ -2,6 +2,7 @@ import { CategoryV5 } from 'bybit-api'
 
 import { detectArbitrage, priceStore } from '@/core'
 import { trackedPairs } from '@/shared/constants'
+import { logByBitToken, logTrade } from '@/shared/lib'
 
 import { getBybitRest, getBybitWebsocket } from '../api'
 import { KlineUpdateMessage } from '../types'
@@ -18,11 +19,20 @@ export const initializeBybitWebSocket = async (): Promise<void> => {
     try {
       const res = await rest.getInstrumentsInfo({ category })
       const list = res.result?.list ?? []
+
+      for (const token of list) {
+        logByBitToken({
+          category,
+          pairName: token.symbol,
+          price: 'null',
+        })
+      }
+
       symbolSets[category] = new Set(list.map((s) => s.symbol))
-    } catch (err) {
+    } catch (error) {
       console.warn(
         `[Bybit] Ошибка получения инструментов для категории ${category}:`,
-        err,
+        error,
       )
       symbolSets[category] = new Set()
     }
@@ -74,15 +84,25 @@ export const initializeBybitWebSocket = async (): Promise<void> => {
         bybit: entry,
       }
 
+      logTrade({
+        stockMarket: 'Bybit',
+        pair: pair.name,
+        side: 'buy',
+        price: entry.price,
+        liquidity: entry.liquidity,
+      })
+
       detectArbitrage(pair.name)
-    } catch (err) {
-      console.error('[❌ Bybit] Ошибка в обработчике update:', err)
+    } catch (error) {
+      console.error('[❌ Bybit] Ошибка в обработчике update:', error)
     }
   })
 
   ws.on('open', ({ wsKey }) => console.log('WebSocket открыт:', wsKey))
   ws.on('response', (response) => console.log('WebSocket ответ:', response))
-  ws.on('exception', (err) => console.error('❌ WebSocket исключение:', err))
+  ws.on('exception', (error) =>
+    console.error('❌ WebSocket исключение:', error),
+  )
   ws.on('close', () => console.log('WebSocket закрыт'))
   ws.on('reconnect', ({ wsKey }) =>
     console.log('Переподключение WebSocket:', wsKey),

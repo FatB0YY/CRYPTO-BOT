@@ -4,24 +4,24 @@ import path from 'path'
 
 const consoleWritersMap: Record<string, ReturnType<typeof stringify>> = {}
 
-function ensureConsoleLogDirExists(): void {
-  const dir = path.resolve(process.cwd(), 'logs', 'console')
+function ensureLogDirExists(): void {
+  const dir = path.resolve(process.cwd(), 'logs', 'success')
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
 }
 
-function getConsoleCsvWriter(pair: string): ReturnType<typeof stringify> {
+function getCsvWriter(pair: string): ReturnType<typeof stringify> {
   const safePairName = pair.replace('/', '_')
   const logPath = path.resolve(
     process.cwd(),
     'logs',
-    'console',
+    'success',
     `${safePairName}.csv`,
   )
   const isNew = !fs.existsSync(logPath)
   const writable = fs.createWriteStream(logPath, { flags: 'a' })
 
-  writable.on('error', (err) => {
-    console.error(`[ConsoleCsvLogger] Ошибка записи в файл ${logPath}:`, err)
+  writable.on('error', (error) => {
+    console.error(`[ConsoleCsvLogger] Ошибка записи в файл ${logPath}:`, error)
   })
 
   const stringifier = stringify({
@@ -38,8 +38,8 @@ function getConsoleCsvWriter(pair: string): ReturnType<typeof stringify> {
     ],
   })
 
-  stringifier.on('error', (err) => {
-    console.error(`[ConsoleCsvLogger] Ошибка stringify для ${pair}:`, err)
+  stringifier.on('error', (error) => {
+    console.error(`[ConsoleCsvLogger] Ошибка stringify для ${pair}:`, error)
   })
 
   stringifier.pipe(writable)
@@ -69,8 +69,8 @@ export function logConsoleCsv(entry: Entry): void {
   } = entry
 
   try {
-    ensureConsoleLogDirExists()
-    const writer = consoleWritersMap[pairName] || getConsoleCsvWriter(pairName)
+    ensureLogDirExists()
+    const writer = consoleWritersMap[pairName] || getCsvWriter(pairName)
 
     writer.write({
       timestamp: new Date().toISOString(),
@@ -82,10 +82,10 @@ export function logConsoleCsv(entry: Entry): void {
       grossProfitPercent,
       netProfitPercent,
     })
-  } catch (err) {
+  } catch (error) {
     console.error(
       `[ConsoleCsvLogger] Ошибка при записи данных ${pairName}:`,
-      err,
+      error,
     )
   }
 }

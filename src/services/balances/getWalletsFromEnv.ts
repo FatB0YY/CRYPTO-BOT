@@ -61,7 +61,7 @@ export function getWalletsFromEnv(): WalletEntryTuple {
       { type: 'solflare', value: solflareArray },
       { type: 'metamask', value: metamaskKey },
     ]
-  } catch (err) {
+  } catch (error) {
     throw new Error('Не удалось преобразовать секретные ключи в Uint8Array')
   }
 }

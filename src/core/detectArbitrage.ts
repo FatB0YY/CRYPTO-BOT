@@ -44,8 +44,8 @@ const getBybitTakerFee = async (
       : DEFAULT_BYBIT_TAKER_FEE_PERCENT
     bybitFeeCache.set(key, { value: fee, updatedAt: now })
     return fee
-  } catch (err) {
-    console.warn(`[Bybit] Ошибка при получении комиссии для ${symbol}:`, err)
+  } catch (error) {
+    console.warn(`[Bybit] Ошибка при получении комиссии для ${symbol}:`, error)
     return DEFAULT_BYBIT_TAKER_FEE_PERCENT
   }
 }

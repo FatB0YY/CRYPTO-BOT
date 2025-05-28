@@ -1,3 +1,3 @@
 export { toLamports } from './convert'
 export { delay } from './delay'
-export { logConsoleCsv, logTrade } from './logger'
+export { logByBitToken, logConsoleCsv, logTrade } from './logger'

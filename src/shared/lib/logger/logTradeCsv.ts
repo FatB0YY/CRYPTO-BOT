@@ -33,8 +33,8 @@ function getCsvWriter(pair: string): ReturnType<typeof stringify> {
     const isNew = !fs.existsSync(logPath)
     const writable = fs.createWriteStream(logPath, { flags: 'a' })
 
-    writable.on('error', (err) => {
-      console.error(`[LogWriter] Ошибка записи в файл ${logPath}:`, err)
+    writable.on('error', (error) => {
+      console.error(`[LogWriter] Ошибка записи в файл ${logPath}:`, error)
     })
 
     const stringifier = stringify({
@@ -49,19 +49,19 @@ function getCsvWriter(pair: string): ReturnType<typeof stringify> {
       ],
     })
 
-    stringifier.on('error', (err) => {
-      console.error(`[LogWriter] Ошибка stringify для пары ${pair}:`, err)
+    stringifier.on('error', (error) => {
+      console.error(`[LogWriter] Ошибка stringify для пары ${pair}:`, error)
     })
 
     stringifier.pipe(writable)
     writersMap[pair] = stringifier
     return stringifier
-  } catch (err) {
+  } catch (error) {
     console.error(
       `[LogWriter] Не удалось создать логгер для пары ${pair}:`,
-      err,
+      error,
     )
-    throw err
+    throw error
   }
 }
 
@@ -93,7 +93,7 @@ export function logTrade(entry: TradeLogEntry): void {
       price: entry.price,
       liquidity: entry.liquidity,
     })
-  } catch (err) {
-    console.error(`[LogWriter] Ошибка при записи трейда ${entry.pair}:`, err)
+  } catch (error) {
+    console.error(`[LogWriter] Ошибка при записи трейда ${entry.pair}:`, error)
   }
 }
