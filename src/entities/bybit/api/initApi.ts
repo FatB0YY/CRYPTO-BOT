@@ -13,13 +13,12 @@ let restInstance: RestClientV5 | null = null
 const wsConfig: WSClientConfigurableOptions = {
   key: config.bybit.apiKey,
   secret: config.bybit.apiSecret,
-  recvWindow: 10000,
 }
 
 const restConfig: RestClientOptions = {
   key: config.bybit.apiKey,
   secret: config.bybit.apiSecret,
-  recv_window: 10000,
+  enable_time_sync: true, // TODO: исправить 100%!!! https://github.com/tiagosiebler/awesome-crypto-examples/wiki/Timestamp-for-this-request-is-outside-of-the-recvWindow
 }
 
 export const getBybitWebsocket = (): WebsocketClient => {

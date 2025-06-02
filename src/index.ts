@@ -8,16 +8,18 @@ import http from 'http'
 import { config } from '@/shared/config'
 
 import { arbitrageLoop } from './core'
-import { initializeBybitWebSocket } from './entities/bybit'
+import { getBybitRest, initializeBybitWebSocket } from './entities/bybit'
 
 const app: Express = express()
 app.use(cors({ credentials: true, origin: '*' }))
 app.use(json())
 app.use(cookieParser())
 
+const rest = getBybitRest()
+
 const PORT = config.port
 
-const main = () => {
+const main = async () => {
   try {
     const server = http.createServer(app)
     server.listen(PORT, () => {

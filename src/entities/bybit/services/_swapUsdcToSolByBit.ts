@@ -1,7 +1,7 @@
 import { getBybitRest } from '../api'
 
 /**
- * Выполняет рыночную сделку на Bybit: продаёт USDC за SOL (пара SOL/USDC). !как мейкер!
+ * Выполняет рыночную сделку на Bybit: продаёт USDC за SOL (пара SOL/USDC). !как Taker!
  *
  * @param {string} amount - Сумма в USDC, которую нужно продать (quote-валюта).
  * @returns {Promise<void>} Ничего не возвращает, но логирует результат ордера в консоль.
