@@ -28,6 +28,14 @@ const main = async () => {
 
     initializeBybitWebSocket()
     arbitrageLoop()
+
+    // const filePath = path.resolve(
+    //   process.cwd(),
+    //   'logs',
+    //   'success',
+    //   'RAY_USDT.csv',
+    // )
+    // analyzeMaxPrice(filePath)
   } catch (error) {
     console.error(error)
     process.exit(1)
