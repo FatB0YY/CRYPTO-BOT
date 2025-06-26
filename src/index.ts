@@ -7,15 +7,12 @@ import http from 'http'
 
 import { config } from '@/shared/config'
 
-import { arbitrageLoop } from './core'
-import { getBybitRest, initializeBybitWebSocket } from './entities/bybit'
+import { executeArbitrage } from './core'
 
 const app: Express = express()
 app.use(cors({ credentials: true, origin: '*' }))
 app.use(json())
 app.use(cookieParser())
-
-const rest = getBybitRest()
 
 const PORT = config.port
 
@@ -26,14 +23,18 @@ const main = async () => {
       console.log(`Server listening on port ${PORT}`)
     })
 
-    initializeBybitWebSocket()
-    arbitrageLoop()
+    // initializeBybitWebSocket()
+    // arbitrageLoop()
+
+    // await checkEvmWalletBalance('F5L5KYkHjK1G9EdACqSr6r9eHMPq1R8gqSEtfyvQfART')
+
+    await executeArbitrage({ amountUsdc: 1, raydiumOutputMint: '' })
 
     // const filePath = path.resolve(
     //   process.cwd(),
     //   'logs',
     //   'success',
-    //   'RAY_USDT.csv',
+    //   'RAYDIUM_USDT.csv',
     // )
     // analyzeMaxPrice(filePath)
   } catch (error) {
