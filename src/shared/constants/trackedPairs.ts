@@ -1,11 +1,11 @@
 export const trackedPairs = [
   // SOL
-  {
-    name: 'SOL/USDT',
-    inputMint: 'So11111111111111111111111111111111111111112', // SOL
-    outputMint: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB', // USDT
-    meteoraPool: null,
-  },
+  // {
+  //   name: 'SOL/USDT',
+  //   inputMint: 'So11111111111111111111111111111111111111112', // SOL
+  //   outputMint: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB', // USDT
+  //   meteoraPool: null,
+  // },
   {
     name: 'SOL/USDC',
     inputMint: 'So11111111111111111111111111111111111111112', // SOL
@@ -26,12 +26,12 @@ export const trackedPairs = [
   //   meteoraPool: null,
   // },
   // RAYDIUM
-  {
-    name: 'RAYDIUM/USDT',
-    inputMint: '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R', // RAYDIUM
-    outputMint: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB', // USDT
-    meteoraPool: null,
-  },
+  // {
+  //   name: 'RAYDIUM/USDT',
+  //   inputMint: '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R', // RAYDIUM
+  //   outputMint: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB', // USDT
+  //   meteoraPool: null,
+  // },
   // LINK
   // {
   //   name: 'LINK/USDT',

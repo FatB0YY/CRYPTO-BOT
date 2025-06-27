@@ -7,7 +7,8 @@ import http from 'http'
 
 import { config } from '@/shared/config'
 
-import { executeArbitrage } from './core'
+import { arbitrageLoop } from './core'
+import { initializeBybitWebSocket } from './entities/bybit'
 
 const app: Express = express()
 app.use(cors({ credentials: true, origin: '*' }))
@@ -23,20 +24,19 @@ const main = async () => {
       console.log(`Server listening on port ${PORT}`)
     })
 
-    // initializeBybitWebSocket()
-    // arbitrageLoop()
-
-    // await checkEvmWalletBalance('F5L5KYkHjK1G9EdACqSr6r9eHMPq1R8gqSEtfyvQfART')
-
-    await executeArbitrage({ amountUsdc: 1, raydiumOutputMint: '' })
+    initializeBybitWebSocket()
+    arbitrageLoop()
 
     // const filePath = path.resolve(
     //   process.cwd(),
     //   'logs',
     //   'success',
-    //   'RAYDIUM_USDT.csv',
+    //   'SOL_USDC.csv',
     // )
     // analyzeMaxPrice(filePath)
+
+    // solana-key-gen SOL: 0.0015 SOL
+    // checkFullWalletBalances()
   } catch (error) {
     console.error(error)
     process.exit(1)

@@ -3,6 +3,8 @@ import { CategoryV5 } from 'bybit-api'
 import { getBybitRest } from '@/entities/bybit'
 import { logConsoleCsv } from '@/shared/lib'
 
+import { executeArbitrage } from './executeArbitrage'
+
 type PriceEntry = {
   raydium?: { price: number; liquidity: number; timestamp: string }
   bybit?: {
@@ -47,6 +49,11 @@ const getBybitTakerFee = async (symbol: string, category: CategoryV5) => {
   }
 }
 
+type DirectionType =
+  | 'Buy on Raydium → Sell on Bybit'
+  | 'Buy on Bybit → Sell on Raydium'
+  | null
+
 export const detectArbitrage = async (pairName: string) => {
   try {
     const entry = priceStore[pairName]
@@ -78,7 +85,7 @@ export const detectArbitrage = async (pairName: string) => {
     let spread = 0
     let grossProfitPercent = 0
     let netProfitPercent = 0
-    let direction = ''
+    let direction: DirectionType = null
 
     if (priceRaydium < priceBybit) {
       spread = priceBybit - priceRaydium
@@ -96,7 +103,11 @@ export const detectArbitrage = async (pairName: string) => {
       return
     }
 
-    if (netProfitPercent > 0) {
+    // TODO: пока что хардкод на direction
+    if (
+      netProfitPercent > 2 &&
+      direction === 'Buy on Bybit → Sell on Raydium'
+    ) {
       console.log(
         `${pairName} | pairName[${new Date().toISOString()}] ${direction}\n` +
           `Raydium=${priceRaydium.toFixed(4)} | Bybit=${priceBybit.toFixed(4)} | Δ=${spread.toFixed(4)}\n` +
@@ -112,8 +123,20 @@ export const detectArbitrage = async (pairName: string) => {
         priceRaydium,
         spread,
       })
+
+      // 💰 Арбитражная сделка: покупаем на Bybit → продаём на Raydium
+      const amountUsdc = 17.6 // ❗ Тут можно сделать динамическим, но пока фиксируем
+      const raydiumOutputMint = 'Es9vMFrzaCERCLgLWLZKjQwBPiKRdzzZ1zX8FzpuFxrP' // 🔁 Укажи здесь нужный адрес токена (например, USDC)
+
+      console.log(
+        `🚀 [ARBITRAGE] Обнаружена возможность! Запускаем сделку на ${amountUsdc} USDC...`,
+      )
+      await executeArbitrage({ amountUsdc, raydiumOutputMint })
+
+      console.log('🛑 Арбитраж завершён, приложение завершается')
+      process.exit(0)
     }
   } catch (error) {
-    console.error(error)
+    console.error('[❌ ERROR] detectArbitrage:', error)
   }
 }
