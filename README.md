@@ -1,108 +1,84 @@
+**English** | [Русский](./README.ru.md)
+
 # DEXONIR
 
-## Постановка задачи: арбитраж котировок пар токенов на разных криптобиржах с целью получения выгоды из разницы стоимости (обменного курса) на разных площадках по одним и тем же парам
+An arbitrage bot that tracks price differences for the same token pairs across decentralised exchanges on Solana and a centralised exchange, and executes trades when the spread covers its own costs.
 
-## Environment Variables (.env)
+## The problem
 
-Следующие переменные **обязательны** для корректной работы арбитражного бота:
+The same pair trades at slightly different prices on different venues. Capturing that difference sounds simple and mostly isn't: by the time an order lands, the spread may have moved, and what looked profitable on paper is often consumed entirely by fees.
 
-### WALLETS
+The bot therefore separates two numbers explicitly:
 
-| Переменная                        | Описание                                                                          |
-| --------------------------------- | --------------------------------------------------------------------------------- |
-| `WALLET_SOLANA_KEYGEN_SECRET_KEY` | Секретный ключ Solana, созданный через `solana-keygen` (в виде JSON-массива байт) |
-| `WALLET_SOLFLARE_SECRET_KEY`      | Секретный ключ Solflare-кошелька (в виде JSON-массива байт)                       |
-| `WALLET_METAMASK_PUBLIC_KEY`      | Публичный ключ Metamask (для EVM-сетей)                                           |
+- **Gross** — the raw profit implied by the price difference between Raydium and Bybit, ignoring costs
+- **Net** — what remains after every fee on both sides: the Raydium pool fee, Solana priority fees, and Bybit's trading fee
 
-### Общие настройки
+Only net matters. A large gross spread on an illiquid pool with a high fee tier is a losing trade, and the bot is built around that distinction rather than around spotting spreads.
 
-| Переменная   | Описание                                                     |
-| ------------ | ------------------------------------------------------------ |
-| `TX_VERSION` | Версия используемой транзакции (например: `V0` или `LEGACY`) |
+## Venues
 
-### ByBit (личный аккаунт)
+| Venue | Type | Role |
+| --- | --- | --- |
+| **Raydium** | DEX on Solana | Pool discovery, swap quoting and execution |
+| **Meteora** | DEX on Solana (DLMM) | Pricing from active bins, position state |
+| **Bybit** | Centralised exchange | Live prices over WebSocket, market orders |
 
-| Переменная         | Описание             |
-| ------------------ | -------------------- |
-| `API_KEY_BYBIT`    | API-ключ для доступа |
-| `API_SECRET_BYBIT` | Секретный ключ       |
+## How it works
 
-### ANKR
+**Pool selection.** `getPopularRaydiumTokens` pulls unique tokens from Raydium's top 50 pools ranked by 24-hour volume; `getTopRaydiumPoolByTokens` then picks the most liquid pool for a given pair. Liquidity is the constraint that decides whether a spread is actually tradeable, so pool choice comes before price comparison.
 
-| Переменная     | Описание                                                               |
-| -------------- | ---------------------------------------------------------------------- |
-| `ANKR_RPC_URL` | RPC-URL от Ankr (например: `https://rpc.ankr.com/multichain/your_key`) |
-| `ANKR_API_KEY` | API-ключ Ankr (если используется для авторизованных запросов)          |
+**Price feeds.** Bybit prices arrive over a WebSocket subscription to the tracked pairs, with the instrument category (spot, linear) resolved per symbol. Meteora prices are read from the active bin of a DLMM pool.
 
----
+**Quoting before committing.** `getComputeSwapBase` calculates the parameters of a prospective swap without submitting anything on chain, so the trade is evaluated against real expected output rather than a mid-price estimate. `getRaydiumSwapFeePercent` supplies the pool's fee tier and `getPriorityFees` the current Solana priority fee, both feeding the net calculation.
 
-## Services - общие функции
+**Execution.** `postTransactionSwap` requests signable transactions from the Raydium API, `signAndSendTransactions` signs and submits them to the network. `ensureTokenAccount` creates the Associated Token Account for a mint when the wallet does not yet have one — a step that otherwise fails the transaction outright.
 
-1. `ensureTokenAccount` - Создаёт Associated Token Account (ATA) для заданного токена, если он ещё не существует на кошельке.
+**Wallets and balances.** `getWalletsFromEnv` reads Solana, Solflare and Metamask credentials from the environment, validates them and converts each to the format its SDK expects. Balances are checked across Solana, EVM networks and the Bybit account before a cycle runs.
 
-2. `getWalletsFromEnv` - Функция извлекает закрытые ключи (Solana-Keygen, Solflare) и публичные адреса (Metamask) криптовалютных кошельков из переменных окружения .env, валидирует их наличие и преобразует в подходящие форматы (два ключа — в Uint8Array, один — в строку).
+## Environment variables
 
-3. `checkFullWalletBalances` - Проверяет и выводит балансы всех поддерживаемых кошельков.
+### Wallets
 
-4. `checkEvmWalletBalance` - Проверяет и выводит баланс заданного EVM-совместимого кошелька на нескольких сетях.
+| Variable | Description |
+| --- | --- |
+| `WALLET_SOLANA_KEYGEN_SECRET_KEY` | Solana secret key produced by `solana-keygen`, as a JSON byte array |
+| `WALLET_SOLFLARE_SECRET_KEY` | Solflare wallet secret key, as a JSON byte array |
+| `WALLET_METAMASK_PUBLIC_KEY` | Metamask public key, for EVM networks |
 
-5. `checkByBitWalletBalance` - Проверяет и выводит баланс кошелька пользователя на бирже Bybit
+### Exchange and RPC
 
-## Entities
+| Variable | Description |
+| --- | --- |
+| `API_KEY_BYBIT` | Bybit API key |
+| `API_SECRET_BYBIT` | Bybit API secret |
+| `ANKR_RPC_URL` | Ankr RPC endpoint |
+| `ANKR_API_KEY` | Ankr API key, when authenticated requests are used |
+| `TX_VERSION` | Transaction version — `V0` or `LEGACY` |
 
-### Raydium
+Two of these are private keys with direct control over funds. Keep `.env` out of version control.
 
-#### services (public)
+## Stack
 
-1. `getPopularRaydiumTokens` - Получает список уникальных популярных токенов из топ-50 пулов Raydium, отсортированных по 24-часовому объему торгов (по умолчанию).
+TypeScript, Node.js, Raydium SDK v2, Meteora DLMM SDK, Bybit API and WebSocket, Ankr RPC, Jest, ESLint, Prettier.
 
-2. `getTopRaydiumPoolByTokens` - Получает лучший (наиболее ликвидный или с максимальным объемом) пул Raydium для заданной пары токенов.
+## Running locally
 
-3. `initializeRaydiumSdk` - Инициализирует экземпляр Raydium SDK с текущим соединением, владельцем и кластером.
+    git clone https://github.com/FatB0YY/CRYPTO-BOT.git
+    cd CRYPTO-BOT
+    npm install
 
-4. `swapRaydiumBaseIn` - Универсальный свап Raydium (base-in), поддерживает любые пары SPL-токенов или SOL.
+Create a `.env` from `.env.example` and fill in the variables above, then:
 
-5. `getRaydiumSwapFeePercent` - Возвращает общую комиссию в процентах (%) для Raydium пула
+    npm run start
 
-#### api (private)
+Tests:
 
-1. `getComputeSwapBase` - Функция для получения информации о расчёте обмена на основе входных или выходных данных, позволяет рассчитать параметры будущего свапа, не совершая саму транзакцию.
+    npm run test
 
-2. `postTransactionSwap` - Отправляет POST-запрос к Raydium API для получения подписываемых транзакций свапа.
+## Disclaimer
 
-3. `signAndSendTransactions` - Подписывает и отправляет массив транзакций в сеть Solana
+This is a personal research project, not financial advice and not a product. Running it executes real transactions with real funds on live exchanges. Arbitrage strategies can and do lose money — to fee drift, slippage, failed transactions and latency. Use at your own risk.
 
-4. `fetchDecimals` - Получает количество десятичных знаков (decimals) для токена по его mint адресу.
+## Author
 
-5. `getPriorityFees` - Получает приоритетные комиссии (priority fees) с API Raydium для расчёта compute unit price.
-
-6. `fetchTokenAccountData` - Получает информацию обо всех токен-аккаунтах (включая SOL, SPL и SPL 2022) пользователя
-
-#### Полезные ресурсы
-
-1. [https://deepwiki.com/raydium-io/raydium-sdk-V2-demo/7.1-caching-system](https://deepwiki.com/raydium-io/raydium-sdk-V2-demo/7.1-caching-system) - Как устроена система кэширования в Raydium.
-2. [https://deepwiki.com/raydium-io/raydium-sdk-V2/3.3-api-service](https://deepwiki.com/raydium-io/raydium-sdk-V2/3.3-api-service) - Полная документация api service.
-
-### Meteora
-
-1. `getMeteoraTokenPrice` - Получает цену токена из активного бина пула Meteora
-
-2. `getPositionsState` - Получает и выводит данные позиции пользователя в DLMM-пуле Meteora.
-
-3. `initializeDLMMinstance` - Инициализирует экземпляр DLMM для заданного пула Meteora.
-
-### ByBit
-
-1. `_swapUsdcToSolByBit` - Выполняет рыночную сделку на Bybit: продаёт USDC за SOL (пара SOL/USDC).
-
-2. `initializeBybitWebSocket` - Инициализирует WebSocket-соединение с Bybit и подписывается на пары из `trackedPairs`. Автоматически определяет категорию (spot, linear и т.д.) для каждого символа.
-
-#### api (private)
-
-1. `initApi` - инициализация test и ws.
-2. `syncBybitTime` - синхронизация времени с серверами ByBit
-
-## Общая информация
-
-`Gross` - Это валовая (грубая) прибыль, рассчитанная только по разнице цен между Raydium и Bybit, без учета комиссий.
-`Net` - Это чистая прибыль, уже с учетом всех комиссий (Raydium + Bybit).
+Rodion Ramazanov — [GitHub](https://github.com/FatB0YY) · [Telegram](https://t.me/iamrodionn)
